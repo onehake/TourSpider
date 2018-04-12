@@ -2,6 +2,7 @@
 import scrapy
 import re
 import json
+import lxml.html
 from TourSpider.items import CountryItem
 from scrapy.http import FormRequest
 
@@ -28,10 +29,10 @@ class TourspiderSpider(scrapy.Spider):
         countryitems = []
         for country in response.xpath('//dd[@class="clearfix"]/ul/li/a'):
             countryitem = CountryItem()
-            #print(country.xpath('./text()').extract())
-            #print(str(country.xpath('./@href').re('[0-9]{5}')))
-            countryitem['country'] = country.xpath('./text()').extract()
-            url = str(country.xpath('./@href').re('[0-9]{5}'))
+            #print(country.xpath('./text()')[0].extract())
+            #Sprint(country.xpath('./@href').re('[0-9]{5}')[0])
+            countryitem['country'] = country.xpath('./text()')[0].extract()
+            url = str(country.xpath('./@href').re('[0-9]{5}')[0])
             countryitem['url'] = url
             #url = 'http://www.mafengwo.cn/jd/' + url +'/gonglve.html'
             countryitems.append(countryitem)
@@ -67,9 +68,18 @@ class TourspiderSpider(scrapy.Spider):
 
         for country_item in countryitems:#国家间的循环
             re_url= 'http://www.mafengwo.cn/jd/'+country_item.get('url')+'/gonglve.html'
-
             unicornHeader = {
+                'Accept':'application/json,text/javascript,*/*;q = 0.01',
+                'Accept - Encoding': 'gzip, deflate',
+                'Accept - Language':'en-US,en;q=0.5',
+                'Cache - Control': 'max - age = 0',
+                'Connection': 'keep - alive',
+                'Content - Length': '66',
+                'Content - Type':'application/x-www-form-urlencoded; charset=UTF-8',
+                'DNT': '1',
                 'Host': 'www.mafengwo.cn',
+                'User - Agent':' Mozilla / 5.0(WindowsNT10.0; …) Gecko / 20100101Firefox / 59.0',
+                'X-Requested-With': 'XMLHttpReque',
                 'Referer': re_url,
             }
 
@@ -89,41 +99,8 @@ class TourspiderSpider(scrapy.Spider):
 
     def after_post(self, response):
         print('cccccccccccc')
-        print(response.text())
-        return
-    '''
-        datas = json.loads(response.text)["data"]["page"]
-        for data in datas:
-            count = response.xpath('//a[@class="pi pg-last"]')
-            print(count)
-            page = response.xpath('span[@class="count"]/span[1]/text()')
-            print(page)
-    '''
-
-
-
-
-
-
-
-
-
-    ''' 
-        url = 'http://www.mafengwo.cn/ajax/router.php'
-        form_data = {'sAct': 'KMdd_StructWebAjax%7CGetPoisByTag', 'iMddid': '21536', 'iTagId': '0', 'iPage': '1'}
-        yield scrapy.FormRequest(url, formdata=form_data, headers=self.headers, callback=self.after_post)  # 还可以通过callback修改回调函数等
-
-
-    def after_post(self,response):
-        datas = json.loads(response.text)["data"]["list"]
-        for data in datas:countryitems = []
-            print(data[""])
-
-         count = response.xpath('span[@class="count"]/span[1]/text()')
-         print (count)
-         page = response.xpath('span[@class="count"]/span[2]/text()')
-         print(page)
-     
-
-
-    '''
+        dic = json.loads(response.text)
+        content = dic["data"]["list"]
+        html = lxml.html.fromstring(content)#将json信息渲染成html
+        for jd_item in html.cssselect("li.item"):
+            print(jd_item.cssselect("a.title")[0].text)
