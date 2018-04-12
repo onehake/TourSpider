@@ -13,8 +13,9 @@ class TourspiderPipeline(object):
 
     def process_item(self, item, spider):
         jsontext = json.dumps(dict(item), ensure_ascii=False)
-        self.filename.write(jsontext.encode("utf-8")) + "\n"
+        self.filename.write(jsontext.encode("utf-8"))
         return item
 
     def close_spider(self,spider):
         self.filename.close()
+
