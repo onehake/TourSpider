@@ -5,6 +5,8 @@ import json
 import lxml.html
 from TourSpider.items import CountryItem
 from scrapy.http import FormRequest
+from scrapy.selector import Selector
+from scrapy.http import HtmlResponse
 
 
 class TourspiderSpider(scrapy.Spider):
@@ -29,6 +31,7 @@ class TourspiderSpider(scrapy.Spider):
         countryitems = []
         for country in response.xpath('//dd[@class="clearfix"]/ul/li/a'):
             countryitem = CountryItem()
+            print(type(country))
             #print(country.xpath('./text()')[0].extract())
             #Sprint(country.xpath('./@href').re('[0-9]{5}')[0])
             countryitem['country'] = country.xpath('./text()')[0].extract()
@@ -82,9 +85,9 @@ class TourspiderSpider(scrapy.Spider):
                 'X-Requested-With': 'XMLHttpReque',
                 'Referer': re_url,
             }
-
+            count =1 #初始页数
             myFormData = {'sAct': 'KMdd_StructWebAjax|GetPoisByTag', 'iMddid': country_item['url'], 'iTagId': '0',
-                          'iPage': '1'}
+                          'iPage': str(count)}
             yield scrapy.FormRequest(url="http://www.mafengwo.cn/ajax/router.php",
                                       headers=unicornHeader,
                                       method='POST',  # GET or POST
@@ -99,8 +102,21 @@ class TourspiderSpider(scrapy.Spider):
 
     def after_post(self, response):
         print('cccccccccccc')
-        dic = json.loads(response.text)
+        dic = json.loads(response.body)
+        jd_url =Selector(text=dic['data']['list']).xpath('//li/a/@href').extract()
+        jd_name =Selector(text=dic['data']['list']).xpath('//li/a/@title').extract()
+        #判断是否存在下一页
+        if dic['data']['page'] !='':
+            #共几页
+            count=int(Selector(text=dic['data']['page']).xpath('//div[@class="m-pagination"]/span[1]/span[1]/text()')[0].extract())
+        else:
+            count=1
+
+
+
+        '''
         content = dic["data"]["list"]
         html = lxml.html.fromstring(content)#将json信息渲染成html
         for jd_item in html.cssselect("li.item"):
             print(jd_item.cssselect("a.title")[0].text)
+        '''
