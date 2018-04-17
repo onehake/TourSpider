@@ -3,23 +3,24 @@ import scrapy
 import re
 import json
 import lxml.html
-from TourSpider.items import CountryItem
+from TourSpider.items import CountryItem ,JdItem
 from scrapy.http import FormRequest
 from scrapy.selector import Selector
 from scrapy.http import HtmlResponse
 
+count = 1  # 全局变量    初始页数
+
 
 class TourspiderSpider(scrapy.Spider):
+
     name = 'tourspider'
     allowed_domains = ['mafengwo.cn']
     start_urls = ['http://www.mafengwo.cn/mdd/']
     user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'
-    #cookie = 'ASP.NET_SessionSvc=MTAuOC4xODkuNTZ8OTA5MHxqaW5xaWFvfGRlZmF1bHR8MTUwMDU0MDAxMTY4Mg; ASP.NET_SessionId=llp1osc0ejrpnx514beculek; _abtest_userid=6ba3a6e7-b467-43c7-a7a5-f9df2b6539f4; _bfi=p1%3D100003%26p2%3D0%26v1%3D1%26v2%3D0; bdshare_firstime=1511921790715; _ga=GA1.2.1170534963.1511921792; _gid=GA1.2.1773672486.1511921792; MKT_Pagesource=PC; appFloatCnt=1; manualclose=1; _bfa=1.1511852470959.vij5.1.1511921789102.1511966978022.3.3; _bfs=1.1; page_time=1511852472334%2C1511921790642%2C1511966980133; _RF1=119.36.214.6; _RSG=HYKTjJ9ngFFxfmOUr9OoA9; _RDG=289caa714119b022b402ce802a4784c45c; _RGUID=f3eac494-ed75-4891-92b2-609d5e630a7b; Session=smartlinkcode=U135371&smartlinklanguage=zh&SmartLinkKeyWord=&SmartLinkQuary=&SmartLinkHost=; Union=AllianceID=4899&SID=135371&OUID=&Expires=1512571780659; Mkt_UnionRecord=%5B%7B%22aid%22%3A%224899%22%2C%22timestamp%22%3A1511966980680%7D%5D; _jzqco=%7C%7C%7C%7C%7C1.1134122519.1511921791839.1511921791840.1511966980795.1511921791840.1511966980795.0.0.0.2.2; __zpspc=9.2.1511966980.1511966980.1%233%7Cwww.google.com%7C%7C%7C%7C%23'
     Content_Type = 'application/x-www-form-urlencoded'
     Accept_Encoding = 'gzip, deflate'
     headers = {
         'User-Agent': user_agent,
-        #'Cookie': cookie,
         'Content-Type': Content_Type,
         'Accept-Encoding': Accept_Encoding
     }
@@ -31,7 +32,7 @@ class TourspiderSpider(scrapy.Spider):
         countryitems = []
         for country in response.xpath('//dd[@class="clearfix"]/ul/li/a'):
             countryitem = CountryItem()
-            print(type(country))
+
             #print(country.xpath('./text()')[0].extract())
             #Sprint(country.xpath('./@href').re('[0-9]{5}')[0])
             countryitem['country'] = country.xpath('./text()')[0].extract()
@@ -40,35 +41,12 @@ class TourspiderSpider(scrapy.Spider):
             #url = 'http://www.mafengwo.cn/jd/' + url +'/gonglve.html'
             countryitems.append(countryitem)
             yield countryitem
-        #yield countryitems
+          # 指定处理Response的函数
 
 
-        '''
-         # header信息
-        unicornHeader = {
-            'Host': 'www.mafengwo.cn',
-            'Referer': 'http://www.mafengwo.cn/jd/21536/gonglve.html',
-        }
-        # 表单需要提交的数据
-        myFormData = {'sAct': 'KMdd_StructWebAjax|GetPoisByTag', 'iMddid': '21536', 'iTagId': '0', 'iPage': '1'}
-
-        # 自定义信息，向下层响应(response)传递下去
-        #customerData = {'key1': 'value1', 'key2': 'value2'}
-
-        yield scrapy.FormRequest(url="http://www.mafengwo.cn/ajax/router.php",
-                                 headers=unicornHeader,
-                                 method='POST',  # GET or POST
-                                 formdata=myFormData,  # 表单提交的数据
-                                 callback=self.after_post,
-                                 #errback=self.error_handle,
-                                 # 如果需要多次提交表单，且url一样，那么就必须加此参数dont_filter，防止被当成重复网页过滤掉了
-                                 dont_filter=True
-                                 )
-        url = 'http://www.mafengwo.cn/ajax/router.php'
-        '''
-        #遍历 items 获取每个 国家的景点
 
 
+        print('开始运行')
         for country_item in countryitems:#国家间的循环
             re_url= 'http://www.mafengwo.cn/jd/'+country_item.get('url')+'/gonglve.html'
             unicornHeader = {
@@ -85,38 +63,52 @@ class TourspiderSpider(scrapy.Spider):
                 'X-Requested-With': 'XMLHttpReque',
                 'Referer': re_url,
             }
-            count =1 #初始页数
-            myFormData = {'sAct': 'KMdd_StructWebAjax|GetPoisByTag', 'iMddid': country_item['url'], 'iTagId': '0',
-                          'iPage': str(count)}
-            yield scrapy.FormRequest(url="http://www.mafengwo.cn/ajax/router.php",
-                                      headers=unicornHeader,
-                                      method='POST',  # GET or POST
-                                      formdata=myFormData,  # 表单提交的数据
-                                      callback=self.after_post,
-                                      # errback=self.error_handle,
-                                      # 如果需要多次提交表单，且url一样，那么就必须加此参数dont_filter，防止被当成重复网页过滤掉了
-                                      dont_filter=True
-                                      )
 
+            current_count = 1
+            global count
+            count = 1
+            while True:
+                myFormData = {'sAct': 'KMdd_StructWebAjax|GetPoisByTag', 'iMddid': country_item['url'], 'iTagId': '0',
+                              'iPage': str(current_count)}
 
+                yield scrapy.FormRequest(url="http://www.mafengwo.cn/ajax/router.php",
+                                          headers=unicornHeader,
+                                          method='POST',  # GET or POST
+                                          formdata=myFormData,  # 表单提交的数据
+                                          callback=self.after_post,
+                                         meta={'country': country_item['country']},
+                                          # errback=self.error_handle,
+                                          # 如果需要多次提交表单，且url一样，那么就必须加此参数dont_filter，防止被当成重复网页过滤掉了
+                                          dont_filter=True
+                                          )
+
+                print(count)
+
+                if(current_count >= count):
+                    break
+                current_count += 1
+
+     #遍历 items 获取每个 国家的景点
 
     def after_post(self, response):
-        print('cccccccccccc')
+
         dic = json.loads(response.body)
+        country = response.meta['country']
         jd_url =Selector(text=dic['data']['list']).xpath('//li/a/@href').extract()
         jd_name =Selector(text=dic['data']['list']).xpath('//li/a/@title').extract()
+
+        for i in range(len(jd_url)):
+            jd_item = JdItem()
+            jd_item['country']= country
+            jd_item['url']= jd_url
+            jd_item['name']= jd_name
+            yield jd_item
         #判断是否存在下一页
+        global count
         if dic['data']['page'] !='':
             #共几页
             count=int(Selector(text=dic['data']['page']).xpath('//div[@class="m-pagination"]/span[1]/span[1]/text()')[0].extract())
         else:
             count=1
-
-
-
-        '''
-        content = dic["data"]["list"]
-        html = lxml.html.fromstring(content)#将json信息渲染成html
-        for jd_item in html.cssselect("li.item"):
-            print(jd_item.cssselect("a.title")[0].text)
-        '''
+        print (count)
+        return count

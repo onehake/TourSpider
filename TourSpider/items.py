@@ -19,3 +19,8 @@ class CountryItem(scrapy.Item):
     country = scrapy.Field()
     # url
     url = scrapy.Field()
+
+class JdItem(scrapy.Item):
+    country = scrapy.Field()
+    name = scrapy.Field()
+    url = scrapy.Field()
