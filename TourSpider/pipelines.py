@@ -25,5 +25,6 @@ class TourspiderPipeline(object):
         return item
 
     def close_spider(self,spider):
-        self.filename.close()
+        #self.filename.closed()
+        pass
 
