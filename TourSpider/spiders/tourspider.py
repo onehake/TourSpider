@@ -8,7 +8,7 @@ import scrapy
 from scrapy.http import FormRequest, HtmlResponse
 from scrapy.selector import Selector
 
-from TourSpider.items import CountryItem, JdItem
+from TourSpider.items import CountryItem, JdItem, CommItem
 
 
 class TourspiderSpider(scrapy.Spider):
@@ -25,8 +25,14 @@ class TourspiderSpider(scrapy.Spider):
         'Content-Type': Content_Type,
         'Accept-Encoding': Accept_Encoding
     }
+
+
+
     #获取国家标识
+
     def parse(self, response):
+        #self.test(3)
+
         for country in response.xpath('//dd[@class="clearfix"]/ul/li/a'):
             #country_item = CountryItem()
             #country_item['country'] = country.xpath('./text()')[0].extract()
@@ -105,12 +111,33 @@ class TourspiderSpider(scrapy.Spider):
         for i in range(len(jd_url)):
             jd_item = JdItem()
             jd_item['country'] = country
-            jd_item['url'] = jd_url[i]
+            #country.xpath('./@href').re('[0-9]{5}')[0]
+            jd_item['url'] = re.findall(r"[0-9]{1,7}", jd_url[i])[0]
             jd_item['name'] = jd_name[i]
             yield jd_item
+            #jd_url="http://pagelet.mafengwo.cn/poi/pagelet/poiCommentListApi?callback=jQuery181031605621927891037_1525169665109&params={"poi_id": "jd_item['url']"}&_= 1525169665228}"
+            #                                                                                                                                     "poi_id": "3474"} & _ = 1525169665228"
+            sjd_url='http://pagelet.mafengwo.cn/poi/pagelet/poiCommentListApi?callback=jQuery181011702454390918593_1525247201501&params={"poi_id":'+jd_item['url']+'}&_=1525247201612'
+            headers={
+                'Accept - Encoding':'gzip, deflate',
+                'Accept - Language':'en - US, en;q=0.5',
+                'Connection':'keep - alive',
+                'DNT':'1',
+                'Host':'pagelet.mafengwo.cn',
+                'Referer':'http://www.mafengwo.cn/poi/'+url+'.html',
+                'User - Agent':'Mozilla / 5.0(WindowsNT10.0; …)Gecko/20100101 Firefox / 59.0',
+
+            }
+            #评论页循环
+            yield FormRequest(url=sjd_url, headers=headers, callback=self.get_comment, dont_filter=True)
+            for page in range(1,800):
+                sjd_url='http://pagelet.mafengwo.cn/poi/pagelet/poiCommentListApi?callback = jQuery181031605621927891037_1525169665109&params={"poi_id":'+jd_item['url']+',"page":'+str(page)+',"just_comment":1}&_=1525170156492'
+                yield FormRequest(url=sjd_url, headers=headers, callback=self.get_comment, dont_filter=True)
+
+
             print('写入完成！！！')
 
-        # 判断是否存在下一页
+        # 景点页循环  d判断是否存在下一页
         print('开始判断下一行是否存在')
         next = Selector(text=dic['data']['page']).xpath('//div/a[@calss="pi pg-next"]').extract()
         print(next)
@@ -131,9 +158,37 @@ class TourspiderSpider(scrapy.Spider):
             print ('没有下一页')
 
     #获取景点评论
-    def get_comment(self0):
+    def get_comment(self, response):
+        #jd_url = "http://pagelet.mafengwo.cn/poi/pagelet/poiCommentListApi?callback=jQuery181031605621927891037_1525169665109&params={"poi_id": "jd_item['url'],"page":1,"just_comment":1"}&_= 1525169665228}"
+
+        back = response.body.decode('utf-8')
+        # 正则匹配出所需要的html文档
+        p = re.compile('\((.*?)}}\)')
+        html = json.loads(p.findall(back)[0] + "}}")['data']['html']
+        #print(html)
+
+        comm_name = Selector(text=html).xpath('//a[@class="name"]/text()').extract()
+        #comm_star =Selector(text=html).xpath('//li[@class="rev-item.comment-item.clearfix"]/span/@class').extract()
+        comm = Selector(text=html).xpath('//p[@class="rev-txt"]/text()').extract()
+        comm_time = Selector(text=html).xpath('//div[@class="info clearfix"]/span[@class="time"]/text()').extract()
+        print(comm_name)
+        print(comm)
+        print(comm_time)
+        for i in range(len(comm)):
+            commItem = CommItem()
+            commItem['name'] = comm_name[i]
+            commItem['content'] = comm[i]
+            commItem['time'] = comm_time[i]
+
+            yield commItem
+        print('sssssssssssssss')
 
         pass
+
+    def test(self,count):
+        print('测试算定义')
+        print(count)
+
 
 
 '''
