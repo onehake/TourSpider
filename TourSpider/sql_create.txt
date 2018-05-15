@@ -1,0 +1,10 @@
+mysql> DROP TABLE IF EXISTS `tour`;
+CREATE TABLE `tourdata` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `country` varchar(255) NOT NULL,
+  `jd` varchar(255) Not NULL,
+  `comm` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `time` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4;

@@ -25,7 +25,9 @@ class JdItem(scrapy.Item):
     name = scrapy.Field()
     url = scrapy.Field()
 class CommItem(scrapy.Item):
+    country = scrapy.Field()
+    jd = scrapy.Field()
     name = scrapy.Field()
-    star = scrapy.Field()
+
     content = scrapy.Field()
     time = scrapy.Field()

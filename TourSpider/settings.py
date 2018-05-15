@@ -65,6 +65,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
+ 
     'TourSpider.pipelines.TourspiderPipeline': 300,
 }
 
@@ -88,3 +89,10 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+#mySQL配置信息
+MYSQL_HOST = '127.0.0.1'
+MYSQL_DBNAME = 'tour'         #数据库名字
+MYSQL_USER = 'root'             #数据库账号
+MYSQL_PASSWD = 'root'         #数据库密码
+MYSQL_PORT = 3306               #数据库端口，在dbhelper中使用
