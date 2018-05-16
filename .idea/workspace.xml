@@ -2,6 +2,7 @@
 <project version="4">
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/TourSpider/spiders/mafengwo.py" line="55" />
+    <bookmark url="file://$PROJECT_DIR$/TourSpider/dbhelper.py" line="28" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="057759b2-a6d9-4b6a-a694-2e451b3c871d" name="Default" comment="">
@@ -9,8 +10,8 @@
       <change beforePath="$PROJECT_DIR$/TourSpider/country.json" beforeDir="false" afterPath="$PROJECT_DIR$/TourSpider/country.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TourSpider/dbhelper.py" beforeDir="false" afterPath="$PROJECT_DIR$/TourSpider/dbhelper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TourSpider/jd.json" beforeDir="false" afterPath="$PROJECT_DIR$/TourSpider/jd.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TourSpider/pipelines.py" beforeDir="false" afterPath="$PROJECT_DIR$/TourSpider/pipelines.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TourSpider/spiders/TSpider.py" beforeDir="false" afterPath="$PROJECT_DIR$/TourSpider/spiders/TSpider.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TourSpider/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/TourSpider/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TourSpider/sql_create.txt" beforeDir="false" afterPath="$PROJECT_DIR$/TourSpider/sql_create.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,37 +22,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TSpider.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/TourSpider/spiders/TSpider.py">
+      <file leaf-file-name="dbhelper.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TourSpider/dbhelper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2108">
-              <caret line="331" column="43" selection-start-line="331" selection-start-column="43" selection-end-line="331" selection-end-column="43" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="items.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/TourSpider/items.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="47">
-              <caret line="27" column="28" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pipelines.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/TourSpider/pipelines.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25">
-              <caret line="23" column="42" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
+            <state relative-caret-position="700">
+              <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
               <folding>
-                <element signature="e#193#204#0" expanded="true" />
+                <element signature="e#25#39#0" expanded="true" />
+                <element signature="e#617#1010#1" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="run.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="run.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TourSpider/run.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="125">
@@ -87,20 +71,21 @@
         <option value="$PROJECT_DIR$/TourSpider/spiders/jd.py" />
         <option value="$PROJECT_DIR$/TourSpider/spiders/tourspider.py" />
         <option value="$PROJECT_DIR$/TourSpider/items.py" />
-        <option value="$PROJECT_DIR$/TourSpider/settings.py" />
         <option value="$PROJECT_DIR$/TourSpider/spiders/dbhelper.py" />
         <option value="$PROJECT_DIR$/TourSpider/spiders/TSpider.py" />
-        <option value="$PROJECT_DIR$/TourSpider/dbhelper.py" />
         <option value="$PROJECT_DIR$/TourSpider/pipelines.py" />
         <option value="$PROJECT_DIR$/TourSpider/run.py" />
+        <option value="$PROJECT_DIR$/TourSpider/dbhelper.py" />
+        <option value="$PROJECT_DIR$/TourSpider/settings.py" />
+        <option value="$PROJECT_DIR$/TourSpider/UI/tour_show.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="65" />
-    <option name="y" value="361" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="235" />
+    <option name="y" value="120" />
     <option name="width" value="1625" />
-    <option name="height" value="1104" />
+    <option name="height" value="1105" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -110,6 +95,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -132,7 +118,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -178,6 +163,24 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="tour_show" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="TourSpider" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/TourSpider/UI" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TourSpider/UI/tour_show.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <configuration name="tourspider" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="TourSpider" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -199,9 +202,11 @@
     <list>
       <item itemvalue="Python.run" />
       <item itemvalue="Python.tourspider" />
+      <item itemvalue="Python.tour_show" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.tour_show" />
         <item itemvalue="Python.tourspider" />
       </list>
     </recent_temporary>
@@ -229,7 +234,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="878" extended-state="7" />
+    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.12879789" />
@@ -237,7 +242,7 @@
       <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.14035088" />
       <window_info anchor="bottom" id="Python Console" order="0" weight="0.32793522" />
-      <window_info active="true" anchor="bottom" id="Run" order="5" visible="true" weight="0.49799198" />
+      <window_info active="true" anchor="bottom" id="Run" order="5" visible="true" weight="0.45515394" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="1" weight="0.3711201" />
       <window_info id="Favorites" order="0" side_tool="true" />
@@ -331,13 +336,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/TourSpider/run.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="5" column="28" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TourSpider/spiders/tourspider.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2850">
@@ -655,37 +653,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TourSpider/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-162">
-          <caret line="64" column="21" selection-start-line="64" selection-start-column="21" selection-end-line="64" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TourSpider/dbhelper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TourSpider/run.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="5" column="28" lean-forward="true" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TourSpider/pipelines.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="23" column="42" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
-          <folding>
-            <element signature="e#193#204#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TourSpider/items.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="47">
@@ -693,10 +660,52 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/TourSpider/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="97" lean-forward="true" selection-start-line="97" selection-end-line="97" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TourSpider/UI/tour_show.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1425">
+          <caret line="63" column="26" lean-forward="true" selection-start-line="63" selection-start-column="26" selection-end-line="63" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/TourSpider/spiders/TSpider.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2108">
-          <caret line="331" column="43" selection-start-line="331" selection-start-column="43" selection-end-line="331" selection-end-column="43" />
+        <state relative-caret-position="2744">
+          <caret line="332" lean-forward="true" selection-start-line="332" selection-end-line="332" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TourSpider/pipelines.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="318">
+          <caret line="40" column="40" lean-forward="true" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
+          <folding>
+            <element signature="e#193#204#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TourSpider/dbhelper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="700">
+          <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
+          <folding>
+            <element signature="e#25#39#0" expanded="true" />
+            <element signature="e#617#1010#1" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TourSpider/run.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="5" column="28" lean-forward="true" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="28" />
         </state>
       </provider>
     </entry>
