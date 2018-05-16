@@ -276,14 +276,13 @@ class TourspiderSpider(scrapy.Spider):
 
         html = json.loads(p.findall(back)[0] + "}}")['data']['html']
         # print(html)
-        comm_all_count = -1
+        comm_all_count = 1
         if len(Selector(text=html).xpath('//span[@class="count"]/span[1]/text()')):
             comm_all_count = int(Selector(text=html).xpath('//span[@class="count"]/span[1]/text()')[0].extract())
-        else:
-            all_all_count = 1
+
         print('景点页码')
         print(comm_all_count)
-        for comm_count in range(2,comm_all_count):
+        for comm_count in range(1,comm_all_count):
             if comm_count == 1:
                 sjd_url = 'http://pagelet.mafengwo.cn/poi/pagelet/poiCommentListApi?callback=jQuery181011702454390918593_1525247201501&params={"poi_id":'+jd_url+'}&_=1525247201612'
             else:

@@ -29,7 +29,7 @@ class DBHelper():
 
     #创建数据库
     def insert(self, item):
-        sql = "insert into tourdata(country,jd,comm,name,time) values(%s,%s,%s,%s,%s)"
+        sql = "insert ignore into tourdata(country,jd,comm,name,time) values(%s,%s,%s,%s,%s)"#去重插入
         #调用插入的方法
         query = self.dbpool.runInteraction(self._conditional_insert, sql, item)
         #调用异常处理方法
