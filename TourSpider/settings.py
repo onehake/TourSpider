@@ -97,3 +97,5 @@ MYSQL_USER = 'root'             #数据库账号
 MYSQL_PASSWD = 'root'         #数据库密码
 
 MYSQL_PORT = 3306               #数据库端口，在dbhelper中使用
+
+FEED_EXPORT_ENCODING = 'utf-8'

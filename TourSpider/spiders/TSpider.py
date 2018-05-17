@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import re
-
+import os
 import lxml.html
 import scrapy
 
@@ -33,6 +33,7 @@ class TourspiderSpider(scrapy.Spider):
     def parse(self, response):
         #self.test(3)
 
+
         for country in response.xpath('//dd[@class="clearfix"]/ul/li/a'):
             #country_item = CountryItem()
             #country_item['country'] = country.xpath('./text()')[0].extract()
@@ -54,12 +55,16 @@ class TourspiderSpider(scrapy.Spider):
             country_item['country'] = cou
             country_item['url'] = url
             yield country_item
-
+        country_item = CountryItem()
+        country_item['country'] = cou
+        country_item['url'] = url
+        yield country_item
+        print("国家抓取完成")
         pass
 
     #获取国家景点列表  发送post请求
     def get_jd(self, response ):
-        print('开始 postsafdddhgfgh')
+        print('开始 post 获取国家景点')
         country = response.meta['country']
         url = response.meta['country_url']
         current_count = response.meta['current_count']
@@ -110,8 +115,6 @@ class TourspiderSpider(scrapy.Spider):
         #print('开始 post')
 
 
-
-
         pass
 
     # 景点翻页
@@ -129,11 +132,11 @@ class TourspiderSpider(scrapy.Spider):
         print(all_count)
         print('页码获取成功')
 
-        for jd_count in range(1,all_count):
+        for jd_counts in range(all_count):
+            jd_count = jd_counts+1
             myFormData = {'sAct': 'KMdd_StructWebAjax|GetPoisByTag', 'iMddid': url, 'iTagId': '0',
                           'iPage': str(jd_count)}
             # print('开始 post')
-
             yield scrapy.FormRequest(url="http://www.mafengwo.cn/ajax/router.php",
                                      headers=unicornHeader,
                                      method='POST',  # GET or POST
@@ -146,58 +149,6 @@ class TourspiderSpider(scrapy.Spider):
                                      dont_filter=True
                                      )
 
-
-        '''
-        jd_url = Selector(text=dic['data']['list']).xpath('//li/a/@href').extract()
-        jd_name = Selector(text=dic['data']['list']).xpath('//li/a/@title').extract()
-
-        for i in range(len(jd_url)):
-            jd_item = JdItem()
-            jd_item['country'] = country
-            #country.xpath('./@href').re('[0-9]{5}')[0]
-            jd_item['url'] = re.findall(r"[0-9]{1,7}", jd_url[i])[0]
-            jd_item['name'] = jd_name[i]
-            yield jd_item
-            #jd_url="http://pagelet.mafengwo.cn/poi/pagelet/poiCommentListApi?callback=jQuery181031605621927891037_1525169665109&params={"poi_id": "jd_item['url']"}&_= 1525169665228}"
-            #                                                                                                                                     "poi_id": "3474"} & _ = 1525169665228"
-            sjd_url='http://pagelet.mafengwo.cn/poi/pagelet/poiCommentListApi?callback=jQuery181011702454390918593_1525247201501&params={"poi_id":'+jd_item['url']+'}&_=1525247201612'
-            headers={
-                'Accept - Encoding':'gzip, deflate',
-                'Accept - Language':'en - US, en;q=0.5',
-                'Connection':'keep - alive',
-                'DNT':'1',
-                'Host':'pagelet.mafengwo.cn',
-                'Referer':'http://www.mafengwo.cn/poi/'+url+'.html',
-                'User - Agent':'Mozilla / 5.0(WindowsNT10.0; …)Gecko/20100101 Firefox / 59.0',
-
-            }
-            #评论页循环
-            yield FormRequest(url=sjd_url, headers=headers, callback=self.get_comment, dont_filter=True)
-
-
-            print('写入完成！！！')
-        '''
-        '''
-        # 景点页循环  d判断是否存在下一页
-        print('开始判断下一行是否存在')
-        next = Selector(text=dic['data']['page']).xpath('//div/a[@calss="pi pg-next"]').extract()
-        print(next)
-        print('((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))')
-        if next:
-            current_count = int(response.meta['current_count']) + 1
-            print('进入到下一页')
-
-            curl = 'http://www.mafengwo.cn/jd/' + url + '/gonglve.html'
-            # yield country_item
-            yield response.follow(
-                curl,
-                dont_filter=True,
-                meta={'country': country, 'country_url': url, 'current_count': current_count},
-                callback=self.get_jd
-            )
-        else:
-            print ('没有下一页')
-        '''
     #获取景点
     def after_post_getjd(self,response):
         unicornHeader = response.meta['unicornHeader']
@@ -282,7 +233,8 @@ class TourspiderSpider(scrapy.Spider):
 
         print('景点页码')
         print(comm_all_count)
-        for comm_count in range(1,comm_all_count):
+        for comm_countc in range(comm_all_count):
+            comm_count = comm_countc + 1
             if comm_count == 1:
                 sjd_url = 'http://pagelet.mafengwo.cn/poi/pagelet/poiCommentListApi?callback=jQuery181011702454390918593_1525247201501&params={"poi_id":'+jd_url+'}&_=1525247201612'
             else:
@@ -321,8 +273,7 @@ class TourspiderSpider(scrapy.Spider):
         comm = Selector(text=html).xpath('//p[@class="rev-txt"]/text()').extract()
         comm_time = Selector(text=html).xpath('//div[@class="info clearfix"]/span[@class="time"]/text()').extract()
         print(comm_name)
-        print(comm)
-        print(comm_time)
+
         for i in range(len(comm)):
             commItem = CommItem()
             commItem['country'] = country
@@ -330,7 +281,6 @@ class TourspiderSpider(scrapy.Spider):
             commItem['name'] = comm_name[i]
             commItem['content'] = comm[i]
             commItem['time'] = comm_time[i]
-
             yield commItem
 
 

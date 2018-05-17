@@ -4,7 +4,6 @@ import pymysql
 from twisted.enterprise import adbapi
 from scrapy.utils.project import get_project_settings  #导入seetings配置
 
-
 class DBHelper():
     def __init__(self):
         settings = get_project_settings()  #获取settings配置，设置需要的信息
@@ -18,36 +17,30 @@ class DBHelper():
             cursorclass=pymysql.cursors.DictCursor,
             use_unicode=False,
         )
-        '''
-        connection = pymysql.connect(**dbparams)
-        sql = "alter tourdata add unique index(country,jd,comm,name,time)"
 
-        try:
-            with connection.cursor() as cursor:
-                # 执行sql语句，进行查询
-
-                cursor.execute(sql)
-
-            # 没有设置默认自动提交，需要主动提交，以保存所执行的语句
-            connection.commit()
-
-        finally:
-            connection.close()
-        '''
         #**表示将字典扩展为关键字参数,相当于host=xxx,db=yyy....
+
         dbpool = adbapi.ConnectionPool('pymysql', **dbparams)
 
-        self.dbpool = dbpool
+        self.conn = dbpool
+
+        '''
+        pool = adbapi.ConnectionPool('pymysql', **dbparams)  # 5为连接池里的最少连接数
+
+        self.conn = pool.connect()  # 以后每次需要数据库连接就是用connection（）函数获取连接就好了
+        '''
+
 
     def connect(self):
-        return self.dbpool
+        return self.conn
 
 
     #创建数据库
     def insert(self, item):
         sql = "insert ignore into tourdata(country,jd,comm,name,time) values(%s,%s,%s,%s,%s)"#去重插入
         #调用插入的方法
-        query = self.dbpool.runInteraction(self._conditional_insert, sql, item)
+        query = self.conn.runInteraction(self._conditional_insert, sql, item)
+
         #调用异常处理方法
         query.addErrback(self._handle_error)
 
