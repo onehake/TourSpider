@@ -232,7 +232,7 @@ class TourspiderSpider(scrapy.Spider):
             comm_all_count = int(Selector(text=html).xpath('//span[@class="count"]/span[1]/text()')[0].extract())
 
         print('景点页码')
-        print(comm_all_count)
+        
         for comm_countc in range(comm_all_count):
             comm_count = comm_countc + 1
             if comm_count == 1:

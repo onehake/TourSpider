@@ -1,5 +1,5 @@
  DROP TABLE IF EXISTS `tour`;
-CREATE TABLE `tourdata` (
+CREATE TABLE `tourdata1` (
   `country` varchar(255) NOT NULL,
   `jd` varchar(255) Not NULL,
   `comm` varchar(255) DEFAULT NULL,
