@@ -84,7 +84,7 @@ class TourspiderSpider(scrapy.Spider):
             'Accept': 'application/json,text/javascript,*/*;q = 0.01',
             'Accept - Encoding': 'gzip, deflate',
             'Accept - Language': 'en-US,en;q=0.5',
-            'Cache - Control': 'max - age = 0',
+            'Cache - Control': 'max - age = 0', 
             'Connection': 'keep - alive',
             'Content - Length': '66',
             'Content - Type': 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -140,7 +140,7 @@ class TourspiderSpider(scrapy.Spider):
             all_count = 1
 
         print(all_count)
-        print('页码获取成功')
+        print('景点页码获取成功')
 
         for jd_counts in range(all_count):
             jd_count = jd_counts + 1
@@ -240,8 +240,8 @@ class TourspiderSpider(scrapy.Spider):
         comm_all_count = 1
         if len(Selector(text=html).xpath('//span[@class="count"]/span[1]/text()')):
             comm_all_count = int(Selector(text=html).xpath('//span[@class="count"]/span[1]/text()')[0].extract())
-
-        print('景点页码')
+        print(comm_all_count)
+        print('评论页码')
 
         for comm_countc in range(comm_all_count):
             comm_count = comm_countc + 1
@@ -279,7 +279,7 @@ class TourspiderSpider(scrapy.Spider):
         # print(html)
 
         comm_name = Selector(text=html).xpath('//a[@class="name"]/text()').extract()
-        # comm_star =Selector(text=html).xpath('//li[@class="rev-item.comment-item.clearfix"]/span/@class').extract()
+        #comm_star =Selector(text=html).xpath('//li[@class="rev-item.comment-item.clearfix"]/span/@class').extract()
         comm = Selector(text=html).xpath('//p[@class="rev-txt"]/text()').extract()
         comm_time = Selector(text=html).xpath('//div[@class="info clearfix"]/span[@class="time"]/text()').extract()
         print(comm_name)

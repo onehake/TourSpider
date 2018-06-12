@@ -21,13 +21,15 @@ class TourspiderPipeline(object):
         self.db=DBHelper()
         self.filename1 = None
         self.filename = None
+        '''
         if os.path.exists("country.json"):
             os.remove("country.json")
         if os.path.exists("jd.json"):
             os.remove("jd.json")
+        '''
 
     def process_item(self, item, spider):
-
+        '''
         if isinstance(item, CountryItem):
             self.filename = open("country.json", "ab+")
             jsontext = json.dumps(dict(item), ensure_ascii=False)
@@ -40,7 +42,8 @@ class TourspiderPipeline(object):
 
         elif isinstance(item, CommItem):
             self.db.insert(item)
-
+        '''
+        self.db.insert(item)
         return item
 
     def close_spider(self,spider):
